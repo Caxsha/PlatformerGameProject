@@ -8,21 +8,35 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField] Menu[] menus;
 
-    private void Awake()
+    void Awake()
     {
         Instance = this;
     }
 
     public void OpenMenu(string menuName)
     {
-        for (int i = 0; i < menus.Length; i++) { 
-            if (menus[i].name == menuName) { OpenMenu(menus[i]); }
-            else if (menus[i].open) { CloseMenu(menus[i]); }
+        for (int i = 0; i < menus.Length; i++)
+        {
+            if (menus[i].menuName == menuName)
+            {
+                menus[i].Open();
+            }
+            else if (menus[i].open)
+            {
+                CloseMenu(menus[i]);
+            }
         }
     }
 
     public void OpenMenu(Menu menu)
     {
+        for (int i = 0; i < menus.Length; i++)
+        {
+            if (menus[i].open)
+            {
+                CloseMenu(menus[i]);
+            }
+        }
         menu.Open();
     }
 

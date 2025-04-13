@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Для перехода на другую сцену
+using UnityEngine.SceneManagement;
 using Unisave.Facets;
 using TMPro;
 
@@ -18,14 +18,22 @@ public class AuthManager : MonoBehaviour
 
     public async void OnLoginButton()
     {
+        // Проверка на пустые поля
+        if (string.IsNullOrEmpty(usernameField.text) || string.IsNullOrEmpty(passwordField.text))
+        {
+            Debug.Log("Заполните все поля!");
+            return;
+        }
+
         string playerId = await this.CallFacet((AuthFacet f) => f.Login(
             usernameField.text, passwordField.text
         ));
         if (playerId != null)
         {
             PlayerPrefs.SetString("PlayerId", playerId); // Сохраняем ID игрока
+            PlayerPrefs.SetString("username", usernameField.text); // Сохраняем логин как никнейм
             Debug.Log("Вход успешен! ID игрока: " + playerId);
-            SceneManager.LoadScene("MainMenu"); // Переходим на следующую сцену
+            SceneManager.LoadScene("Menu");
         }
         else
         {
