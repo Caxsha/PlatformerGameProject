@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef2675ea11414f439b3a17054ad49dc5, type: 3}
   m_Name: MyBackend
   m_EditorClassIdentifier: 
-  uploadBehaviour: check-scenes
-  scenesToCheck:
-  - {fileID: 102900000, guid: 093270e91b05771419efad058e34e4fa, type: 3}
+  uploadBehaviour: always
+  scenesToCheck: []
   unisavePreferencesKey: MyCompany.MyUnisaveModule

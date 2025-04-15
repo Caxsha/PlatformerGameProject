@@ -282,7 +282,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 3461901272828142507}
-  playerCountText: {fileID: 995242907671820105}
 --- !u!1 &9209556330937462336
 GameObject:
   m_ObjectHideFlags: 0
