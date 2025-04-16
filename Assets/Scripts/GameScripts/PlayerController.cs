@@ -166,6 +166,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
         StartCoroutine(ReturnToMenu());
     }
 
+    [PunRPC]
+    public void TeleportPlayer(Vector3 newPosition, Quaternion newRotation)
+    {
+        Debug.Log($"Teleporting {gameObject.name} to {newPosition}");
+        transform.SetPositionAndRotation(newPosition, newRotation);
+    }
+
     private IEnumerator ReturnToMenu()
     {
         yield return new WaitForSeconds(5f);
