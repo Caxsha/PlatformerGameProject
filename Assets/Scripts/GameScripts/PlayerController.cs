@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private IEnumerator ReturnToMenu()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         // Уничтожаем RoomManager синхронно
         if (RoomManager.Instance != null)

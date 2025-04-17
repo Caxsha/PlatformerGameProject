@@ -28,8 +28,8 @@ public class MyTeleporter : MonoBehaviour
 
     private IEnumerator TeleportWithDelay(PlayerController player, PhotonView pv)
     {
-        // Ждем 2 секунды
-        yield return new WaitForSeconds(2f);
+        // Ждем 1 секунды
+        yield return new WaitForSeconds(1f);
 
         // Проверяем, что игрок все еще существует и не телепортирован
         if (player != null && !isBeingTeleportedTo)
