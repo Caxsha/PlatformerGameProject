@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9216161640570754016}
   - component: {fileID: 5552275932377369094}
   - component: {fileID: 8985888108359069566}
-  - component: {fileID: 6855026670834530139}
+  - component: {fileID: 2986563179630803081}
   m_Layer: 0
   m_Name: PlateDouble
   m_TagString: Untagged
@@ -110,8 +110,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!65 &6855026670834530139
-BoxCollider:
+--- !u!64 &2986563179630803081
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -128,6 +128,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.3284214, y: 0.9000319, z: 5.370822}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -768028402504110270, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}

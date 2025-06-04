@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6764454978987788767}
   - component: {fileID: 8426612269578292185}
   - component: {fileID: 3753319652985160445}
-  - component: {fileID: 2430661951712163745}
+  - component: {fileID: 257117586031222853}
   m_Layer: 0
   m_Name: LogWithSpikes
   m_TagString: Untagged
@@ -109,8 +109,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!65 &2430661951712163745
-BoxCollider:
+--- !u!64 &257117586031222853
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -127,6 +127,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.977599, y: 0.9950949, z: 2.106252}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 491143407260242397, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}

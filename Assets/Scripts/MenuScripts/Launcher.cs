@@ -28,6 +28,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     void Start()
     {
         Debug.Log("Connecting to Master");
+        MenuManager.Instance.OpenMenu("loading"); // Открываем LoadingMenu во время подключения
         PhotonNetwork.ConnectUsingSettings();
         if (startGameButton != null)
         {
@@ -49,7 +50,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        MenuManager.Instance.OpenMenu("title");
+        MenuManager.Instance.OpenMenu("title"); // Переключаемся на TitleMenu после присоединения к лобби
         Debug.Log("Joined Lobby");
     }
 

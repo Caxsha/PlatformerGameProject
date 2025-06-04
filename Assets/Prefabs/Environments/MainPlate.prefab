@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3066893392669690173}
   - component: {fileID: 8218536302548298825}
   - component: {fileID: 6816146646603260247}
+  - component: {fileID: 8756188083261448874}
   m_Layer: 0
   m_Name: SpikePlate
   m_TagString: Untagged
@@ -109,6 +110,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!64 &8756188083261448874
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4770960418099515275}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1573460029855636193, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}
 --- !u!1 &4880313007847094608
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +143,7 @@ GameObject:
   - component: {fileID: 8637922173194185399}
   - component: {fileID: 6787467698584388379}
   - component: {fileID: 4009202308427321477}
-  - component: {fileID: 5952163318922520080}
+  - component: {fileID: 5598797546623634490}
   m_Layer: 0
   m_Name: MainPlate
   m_TagString: Untagged
@@ -196,8 +219,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5952163318922520080
-BoxCollider:
+--- !u!64 &5598797546623634490
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -214,6 +237,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.987726, y: 1.987726, z: 1.1906548}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4892918372294959524, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}

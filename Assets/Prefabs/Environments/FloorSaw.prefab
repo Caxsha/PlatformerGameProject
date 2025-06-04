@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2393199104919378846}
   - component: {fileID: 1769655241926529864}
   - component: {fileID: 813765967790694738}
+  - component: {fileID: 828446343218308173}
   m_Layer: 0
   m_Name: Saw
   m_TagString: Untagged
@@ -108,6 +109,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!64 &828446343218308173
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3256918606966927542}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4685099658920931431, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}
 --- !u!1 &6886035684964100126
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +142,7 @@ GameObject:
   - component: {fileID: 9054034949191168535}
   - component: {fileID: 1055546397309480564}
   - component: {fileID: 2285151037987793914}
-  - component: {fileID: 1106361889661992842}
+  - component: {fileID: 8509866187365469312}
   m_Layer: 0
   m_Name: FloorSaw
   m_TagString: Untagged
@@ -194,8 +217,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1106361889661992842
-BoxCollider:
+--- !u!64 &8509866187365469312
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -212,6 +235,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.33001968, y: 0.12327635, z: 3.5502892}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6672925563393389093, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}

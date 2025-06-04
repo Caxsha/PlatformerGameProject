@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 18938d64-8177-43da-ac16-1d0d9a8f7e2a
+    AppIdRealtime: 52a3cf7f-ee9d-43ad-9228-37bfc2108e1f
     AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
@@ -45,6 +45,12 @@ MonoBehaviour:
   - DeclareVictory
   - DestroyRoomManager
   - TeleportPlayer
+  - SyncCoins
+  - AddCoin
+  - ForceLeaveRoom
+  - CollectCoin
+  - SpawnEffect
+  - RequestDestroyCoin
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
   DevRegionSetOnce: 1

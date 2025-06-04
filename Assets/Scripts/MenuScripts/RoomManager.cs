@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 using System.IO;
+using Photon.Realtime;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -23,7 +24,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         Instance = this;
         pv = GetComponent<PhotonView>();
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject); // Убедитесь, что объект сохраняется между сценами
     }
 
     public override void OnEnable()
@@ -40,7 +41,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (scene.buildIndex == 2) // We're in the game scene
+        if (scene.buildIndex == 2) // Мы находимся на игровой сцене
         {
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
         }
@@ -64,5 +65,30 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Instance = null;
             Destroy(gameObject);
         }
+    }
+
+    // Вызывается при выходе из комнаты
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        // Уничтожаем RoomManager при выходе из комнаты
+        DestroyInstance();
+    }
+
+    // Вызывается при смене хоста
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // Уничтожаем объект на старом хосте
+            DestroyInstance();
+        }
+    }
+
+    // Добавляем явное уничтожение объекта при переходе на другую сцену
+    public void LoadNewScene(int sceneIndex)
+    {
+        DestroyInstance(); // Уничтожаем объект перед загрузкой новой сцены
+        PhotonNetwork.LoadLevel(sceneIndex); // Загружаем новую сцену
     }
 }
