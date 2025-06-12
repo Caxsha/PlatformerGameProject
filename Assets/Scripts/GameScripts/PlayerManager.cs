@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour
 
     int deaths;
 
+    public int savedCoins = 0;
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();

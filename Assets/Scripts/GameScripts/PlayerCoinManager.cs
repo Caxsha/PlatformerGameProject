@@ -4,25 +4,30 @@ using UnityEngine;
 public class PlayerCoinManager : MonoBehaviour
 {
     public TextMeshProUGUI Text;
-    public int NumberOfCoins { get; private set; } = 0;
+
+    private int coinCount = 0;
+
+    public void SetCoins(int count)
+    {
+        coinCount = count;
+        UpdateText();
+    }
+
+    private void UpdateText()
+    {
+        if (Text != null)
+        {
+            Text.text = coinCount.ToString();
+        }
+    }
 
     public void AddOne()
     {
-        NumberOfCoins++;
-        UpdateUI();
+        SetCoins(coinCount + 1);
     }
 
     public void ResetCoins()
     {
-        NumberOfCoins = 0;
-        UpdateUI();
-    }
-
-    private void UpdateUI()
-    {
-        if (Text != null)
-        {
-            Text.text = NumberOfCoins.ToString();
-        }
+        SetCoins(0);
     }
 }

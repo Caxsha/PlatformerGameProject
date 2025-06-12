@@ -4,46 +4,32 @@ using Photon.Pun;
 
 public class MyTeleporter : MonoBehaviour
 {
-    public MyTeleporter TeleportTo; // Ссылка на целевой телепорт
-    public bool isBeingTeleportedTo { get; set; }
+    public MyTeleporter TeleportTo;
+    private bool isTeleporting = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isBeingTeleportedTo)
-        {
-            PlayerController player = other.GetComponent<PlayerController>();
-            PhotonView pv = other.GetComponent<PhotonView>();
+        if (isTeleporting || TeleportTo == null)
+            return;
 
-            if (player != null && pv != null && pv.IsMine)
-            {
-                Debug.Log($"Trigger entered by: {other.gameObject.name}, starting teleport");
-                StartCoroutine(TeleportWithDelay(player, pv));
-            }
-            else
-            {
-                Debug.LogWarning($"No PlayerController or PhotonView found on {other.gameObject.name}, or not local player");
-            }
+        PhotonView pv = other.GetComponent<PhotonView>();
+        if (pv != null && pv.IsMine)
+        {
+            StartCoroutine(TeleportRoutine(other.transform, pv));
         }
     }
 
-    private IEnumerator TeleportWithDelay(PlayerController player, PhotonView pv)
+    private IEnumerator TeleportRoutine(Transform player, PhotonView pv)
     {
-        // Ждем 1 секунды
+        isTeleporting = true;
+        TeleportTo.isTeleporting = true;
+
+        yield return new WaitForSeconds(0.05f);
+
+        pv.RPC("TeleportPlayer", RpcTarget.All, TeleportTo.transform.position, TeleportTo.transform.rotation);
+
         yield return new WaitForSeconds(1f);
-
-        // Проверяем, что игрок все еще существует и не телепортирован
-        if (player != null && !isBeingTeleportedTo)
-        {
-            // Вызываем RPC для телепортации на всех клиентов
-            pv.RPC("TeleportPlayer", RpcTarget.All, TeleportTo.transform.position, TeleportTo.transform.rotation);
-            Debug.Log($"Teleporting {player.gameObject.name} to {TeleportTo.transform.position}");
-
-            TeleportTo.isBeingTeleportedTo = true;
-        }
-
-        // Сбрасываем флаги через короткое время
-        yield return new WaitForSeconds(0.1f);
-        isBeingTeleportedTo = false;
-        TeleportTo.isBeingTeleportedTo = false;
+        isTeleporting = false;
+        TeleportTo.isTeleporting = false;
     }
 }

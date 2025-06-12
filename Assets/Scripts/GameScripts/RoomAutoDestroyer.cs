@@ -23,7 +23,6 @@ public class RoomAutoDestroyer : MonoBehaviourPunCallbacks
 
     void CheckRoomState()
     {
-        // Если мы остались последним игроком и не являемся хозяином — просто выходим
         if (PhotonNetwork.CurrentRoom.PlayerCount <= 1 && PhotonNetwork.IsMasterClient)
         {
             Debug.Log("Остался только хост. Закрываем комнату...");
@@ -37,17 +36,15 @@ public class RoomAutoDestroyer : MonoBehaviourPunCallbacks
 
     void CloseRoomAndReturnToMenu()
     {
-        // Отключаем возможность подключения к комнате
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
 
-        // Покидаем комнату
         PhotonNetwork.LeaveRoom();
     }
 
     public override void OnLeftRoom()
     {
         Debug.Log("Покинули комнату. Загружаем сцену Menu.");
-        SceneManager.LoadScene("Menu"); // Убедись, что сцена Menu добавлена в Build Settings
+        SceneManager.LoadScene("Menu");
     }
 }

@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1107344129516097838}
   - component: {fileID: 6764454978987788767}
   - component: {fileID: 8426612269578292185}
-  - component: {fileID: 3753319652985160445}
   - component: {fileID: 257117586031222853}
+  - component: {fileID: 2162532790404373233}
+  - component: {fileID: 7123446916369624713}
   m_Layer: 0
   m_Name: LogWithSpikes
   m_TagString: Untagged
@@ -88,27 +89,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &3753319652985160445
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4332873165404685935}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4cc6e1133feba0a4594f00534d2ec90e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!64 &257117586031222853
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -124,10 +104,54 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 491143407260242397, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}
+--- !u!114 &2162532790404373233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4332873165404685935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521fa6cd21100364e82f78b2cd27fc30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementType: 0
+  enableMovement: 1
+  moveStartDelay: 0
+  moveDuration: 0
+  movePause: 0
+  moveDirection: {x: 0, y: 1, z: 0}
+  moveDistance: 2
+  moveSpeed: 1
+  useEasing: 1
+  circleCenterOffset: {x: 0, y: 0, z: 0}
+  circleRadius: 2
+  circleSpeed: 90
+  circleAxis: {x: 0, y: 1, z: 0}
+  enableRotation: 0
+  rotationAxis: {x: 0, y: 0, z: 1}
+  rotationSpeed: 90
+  rotationStartDelay: 0
+  rotationDuration: 0
+  rotationPause: 0
+--- !u!114 &7123446916369624713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4332873165404685935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce67b46b37df18047a2f57163eb9bf41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 100

@@ -43,9 +43,9 @@ GameObject:
   - component: {fileID: 7217549328484267609}
   - component: {fileID: 4460303816893229064}
   - component: {fileID: 4587302469867732440}
-  - component: {fileID: 4405601194330920053}
   - component: {fileID: 59825689806816967}
-  - component: {fileID: 6407852469194916516}
+  - component: {fileID: 8971198488560375494}
+  - component: {fileID: 6038554862485766692}
   m_Layer: 0
   m_Name: SpikesBalls
   m_TagString: Untagged
@@ -119,27 +119,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &4405601194330920053
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3200382854524275511}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dea8f19f153ece7428b25183f4fbb8b6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!64 &59825689806816967
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -155,14 +134,14 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4951212787418725992, guid: f184ba4911fbaaa4195a4f967a69e3bf, type: 3}
---- !u!114 &6407852469194916516
+--- !u!114 &8971198488560375494
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,8 +150,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 3200382854524275511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e4cd8dd51af9eb4ea5afd96ecdbb2cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 521fa6cd21100364e82f78b2cd27fc30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 1
-  speed: 3
+  movementType: 0
+  enableMovement: 1
+  moveStartDelay: 0
+  moveDuration: 0
+  movePause: 0
+  moveDirection: {x: 0, y: 1, z: 0}
+  moveDistance: 2
+  moveSpeed: 1
+  useEasing: 1
+  circleCenterOffset: {x: 0, y: 0, z: 0}
+  circleRadius: 2
+  circleSpeed: 90
+  circleAxis: {x: 0, y: 1, z: 0}
+  enableRotation: 0
+  rotationAxis: {x: 0, y: 0, z: 1}
+  rotationSpeed: 90
+  rotationStartDelay: 0
+  rotationDuration: 0
+  rotationPause: 0
+--- !u!114 &6038554862485766692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3200382854524275511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce67b46b37df18047a2f57163eb9bf41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 50

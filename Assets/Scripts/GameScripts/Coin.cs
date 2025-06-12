@@ -30,27 +30,21 @@ public class Coin : MonoBehaviourPun
         PhotonView playerView = player.GetComponent<PhotonView>();
         if (playerView == null) return;
 
-        // Отключаем коллайдер и визуалы сразу, чтобы монета исчезла локально
         DisableCoin();
 
-        // Отправляем RPC игроку для увеличения счёта монет
         playerView.RPC("AddCoin", playerView.Owner);
 
-        // Показываем эффект у всех
         if (_effectPrefab != null)
         {
             photonView.RPC("SpawnEffect", RpcTarget.All, transform.position, transform.rotation);
         }
 
-        // Теперь просим мастер-клиента удалить монету глобально
         if (PhotonNetwork.IsMasterClient)
         {
-            // Мастер-клиент удаляет сам
             PhotonNetwork.Destroy(gameObject);
         }
         else
         {
-            // Клиент посылает RPC мастер-клиенту с просьбой удалить монету
             photonView.RPC("RequestDestroyCoin", RpcTarget.MasterClient);
         }
     }
@@ -76,7 +70,6 @@ public class Coin : MonoBehaviourPun
     [PunRPC]
     void RequestDestroyCoin()
     {
-        // Вызывает только мастер-клиент — удаляем монету глобально
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.Destroy(gameObject);

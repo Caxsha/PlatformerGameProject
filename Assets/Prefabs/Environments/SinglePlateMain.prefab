@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 4382246346433061431}
   - component: {fileID: 8031733038209663388}
   - component: {fileID: 5423974511242863505}
-  - component: {fileID: 4744755286070850829}
   - component: {fileID: 2872413235635430156}
-  - component: {fileID: 8411345410829218387}
+  - component: {fileID: 8928717290402856144}
   m_Layer: 0
   m_Name: SinglePlate
   m_TagString: Untagged
@@ -87,27 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &4744755286070850829
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3905912397559320337}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c040807721c45d1498b4650e49b7c338, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!64 &2872413235635430156
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -127,10 +105,10 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8132423522751337658, guid: 32812f864ffc68f45aa97b19014b7867, type: 3}
---- !u!114 &8411345410829218387
+--- !u!114 &8928717290402856144
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,11 +117,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 3905912397559320337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e4cd8dd51af9eb4ea5afd96ecdbb2cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 521fa6cd21100364e82f78b2cd27fc30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 1
-  speed: 3
+  movementType: 0
+  enableMovement: 1
+  moveStartDelay: 0
+  moveDuration: 0
+  movePause: 0
+  moveDirection: {x: 0, y: 1, z: 0}
+  moveDistance: 2
+  moveSpeed: 1
+  useEasing: 1
+  circleCenterOffset: {x: 0, y: 0, z: 0}
+  circleRadius: 2
+  circleSpeed: 90
+  circleAxis: {x: 0, y: 1, z: 0}
+  enableRotation: 0
+  rotationAxis: {x: 0, y: 0, z: 1}
+  rotationSpeed: 90
+  rotationStartDelay: 0
+  rotationDuration: 0
+  rotationPause: 0
 --- !u!1 &6791532092124212569
 GameObject:
   m_ObjectHideFlags: 0
