@@ -16,9 +16,7 @@ public class SpawnManager : MonoBehaviour
 
     public Transform GetSpawnpoint()
     {
-        // Получаем ActorNumber локального игрока (начинается с 1)
         int playerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;
-        // Возвращаем точку спавна, соответствующую номеру игрока
         return spawnpoints[playerIndex % spawnpoints.Length].transform;
     }
 }

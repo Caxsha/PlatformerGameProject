@@ -3,32 +3,37 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] Image healthbarImage;
-    [SerializeField] GameObject ui;
+    [Header("UI Components")]
+    [SerializeField] private Image healthbarFillImage;
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private GameObject ui;
+    [SerializeField] private GameObject cameraHolder;
+    [SerializeField] private PlayerCoinManager coinManager;
 
-    [SerializeField] GameObject cameraHolder;
+    private float verticalLookRotation;
+    private bool grounded;
+    private Vector3 smoothMoveVelocity;
+    private Vector3 moveAmount;
 
-    [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
+    private PhotonView PV;
+    private CharacterController characterController;
 
-    float verticalLookRotation;
-    bool grounded;
-    Vector3 smoothMoveVelocity;
-    Vector3 moveAmount;
+    private const float maxHealth = 100f;
+    private float currentHealth = maxHealth;
 
-    Rigidbody rb;
-    PhotonView PV;
-    const float maxHealth = 100f;
-    float currentHealth = maxHealth;
+    private PlayerManager playerManager;
+    private int coins = 0;
 
-    PlayerManager playerManager;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
         PV = GetComponent<PhotonView>();
 
         if (PV.InstantiationData != null && PV.InstantiationData.Length > 0)
@@ -38,19 +43,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (playerManagerPhotonView != null)
             {
                 playerManager = playerManagerPhotonView.GetComponent<PlayerManager>();
-                if (playerManager == null)
-                {
-                    Debug.LogError($"PlayerManager component not found on PhotonView with ViewID {playerManagerViewID}", this);
-                }
             }
-            else
-            {
-                Debug.LogError($"PhotonView with ViewID {playerManagerViewID} not found!", this);
-            }
-        }
-        else
-        {
-            Debug.LogError("InstantiationData is null or empty in PlayerController! Make sure PlayerController is spawned with InstantiationData containing PlayerManager's ViewID.", this);
         }
     }
 
@@ -59,8 +52,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (PV.IsMine)
         {
             currentHealth = maxHealth;
-            if (healthbarImage != null)
-                healthbarImage.fillAmount = currentHealth / maxHealth;
+            UpdateHealthUI();
+
+            if (ui != null)
+            {
+                ui.SetActive(true);
+
+                if (coinManager != null && coinManager.Text == null)
+                {
+                    coinManager.Text = ui.transform.Find("Text (TMP)")?.GetComponent<TextMeshProUGUI>();
+                }
+            }
+
+            if (coinManager != null)
+            {
+                coins = playerManager != null ? playerManager.savedCoins : 0;
+                coinManager.SetCoins(coins);
+            }
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -69,8 +77,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(GetComponentInChildren<AudioListener>());
-            Destroy(rb);
-            Destroy(ui);
+            Destroy(characterController);
+            if (ui != null) ui.SetActive(false);
         }
     }
 
@@ -91,46 +99,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
             Cursor.visible = true;
         }
 
-        Look();
-        Move();
-        Jump();
-
         if (transform.position.y < -10f)
         {
             Die();
         }
-    }
-
-    void Look()
-    {
-        if (Cursor.lockState == CursorLockMode.Locked)
-        {
-            transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
-
-            verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
-
-            cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
-        }
-    }
-
-    void Move()
-    {
-        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
-    }
-
-    void Jump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && grounded)
-        {
-            rb.AddForce(transform.up * jumpForce);
-        }
-    }
-
-    public void SetGroundedState(bool _grounded)
-    {
-        grounded = _grounded;
     }
 
     void FixedUpdate()
@@ -138,7 +110,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (!PV.IsMine)
             return;
 
-        rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+        characterController.Move(transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+    }
+
+    public void SetGroundedState(bool _grounded)
+    {
+        grounded = _grounded;
     }
 
     void Die()
@@ -149,39 +126,126 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogWarning("PlayerManager is null, handling death locally.");
             if (PV.IsMine)
-            {
                 PhotonNetwork.Destroy(gameObject);
-            }
+        }
+    }
+
+    [PunRPC]
+    public void AddCoin()
+    {
+        coins++;
+
+        if (playerManager != null)
+            playerManager.savedCoins = coins;
+
+        Debug.Log($"{photonView.Owner.NickName} собрал монету. Всего монет: {coins}");
+
+        if (PV.IsMine && coinManager != null)
+        {
+            coinManager.SetCoins(coins);
         }
     }
 
     [PunRPC]
     public void DeclareVictory(string winnerName)
     {
-        Debug.Log($"Финиш достигнут игроком: {winnerName}");
-        Debug.Log($"Победитель: {winnerName}");
+        Debug.Log("Победил: " + winnerName);
 
-        StartCoroutine(ReturnToMenu());
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            PhotonView view = player.GetComponent<PhotonView>();
+            if (view != null)
+            {
+                view.RPC("DisablePlayerControl", RpcTarget.All);
+            }
+        }
+
+        PlayerPrefs.SetString("LastWinner", winnerName);
+
+        VictoryUIManager.Instance.ShowVictory(winnerName);
+
+        StartCoroutine(DisconnectAll());
+    }
+
+    private IEnumerator DisconnectAll()
+    {
+        yield return new WaitForSeconds(5f);
+
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.Disconnect();
+            yield return new WaitUntil(() => !PhotonNetwork.IsConnected);
+        }
+
+        SceneManager.LoadScene("Menu");
     }
 
     private IEnumerator ReturnToMenu()
     {
         yield return new WaitForSeconds(5f);
 
-        // Уничтожаем RoomManager синхронно
-        if (RoomManager.Instance != null)
-        {
-            RoomManager.Instance.DestroyInstance();
-        }
-
-        // Ждем, пока RoomManager уничтожится
-        yield return new WaitUntil(() => RoomManager.Instance == null);
+        PhotonNetwork.Disconnect();
+        yield return new WaitUntil(() => PhotonNetwork.NetworkClientState == ClientState.Disconnected);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
         UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
+
+    [PunRPC]
+    public void TeleportPlayer(Vector3 newPosition, Quaternion newRotation)
+    {
+        Debug.Log($"[Teleport RPC] to {newPosition}");
+
+        var cc = GetComponent<CharacterController>();
+        if (cc != null)
+        {
+            cc.enabled = false;
+            transform.SetPositionAndRotation(newPosition, newRotation);
+            cc.enabled = true;
+        }
+        else
+        {
+            transform.SetPositionAndRotation(newPosition, newRotation);
+        }
+    }
+
+    [PunRPC]
+    public void TakeDamage(float damageAmount)
+    {
+        if (!PV.IsMine) return;
+
+        currentHealth -= damageAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        UpdateHealthUI();
+
+        if (currentHealth <= 0f)
+        {
+            Die();
+        }
+
+        PV.RPC("UpdateHealthForOthers", RpcTarget.Others, currentHealth);
+    }
+
+    [PunRPC]
+    void UpdateHealthForOthers(float newHealth)
+    {
+        currentHealth = newHealth;
+        UpdateHealthUI();
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthbarFillImage != null)
+            healthbarFillImage.fillAmount = currentHealth / maxHealth;
+
+        if (healthText != null)
+            healthText.text = $"{Mathf.CeilToInt(currentHealth)} / {Mathf.CeilToInt(maxHealth)}";
+    }
+
+    public float GetHealth() => currentHealth;
 }

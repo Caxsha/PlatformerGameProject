@@ -28,6 +28,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     void Start()
     {
         Debug.Log("Connecting to Master");
+        MenuManager.Instance.OpenMenu("loading");
         PhotonNetwork.ConnectUsingSettings();
         if (startGameButton != null)
         {
@@ -158,7 +159,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        // Очищаем PlayerPrefs при выходе из комнаты
         PlayerPrefs.DeleteKey("username");
         MenuManager.Instance.OpenMenu("title");
     }

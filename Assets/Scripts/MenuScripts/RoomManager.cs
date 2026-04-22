@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 using System.IO;
+using Photon.Realtime;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -13,10 +14,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        // Проверяем, существует ли другой экземпляр
         if (Instance != null && Instance != this)
         {
-            // Уничтожаем новый объект локально, если старый уже есть
             Destroy(gameObject);
             return;
         }
@@ -40,18 +39,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (scene.buildIndex == 2) // We're in the game scene
+        if (scene.buildIndex == 2)
         {
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
         }
     }
 
-    // Вызывается для уничтожения RoomManager
     public void DestroyInstance()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            // Только мастер-клиент отправляет RPC для уничтожения
             pv.RPC("DestroyRoomManager", RpcTarget.All);
         }
     }
@@ -64,5 +61,25 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Instance = null;
             Destroy(gameObject);
         }
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        DestroyInstance();
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            DestroyInstance();
+        }
+    }
+
+    public void LoadNewScene(int sceneIndex)
+    {
+        DestroyInstance();
+        PhotonNetwork.LoadLevel(sceneIndex);
     }
 }
